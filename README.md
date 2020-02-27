@@ -17,14 +17,14 @@ An example :-
 
 Range 1 to 20 should provide the following JSON output :-
 
-{"range" : "1 2 3 4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz 16 17 fizz 19 buzz",
- "fizz" : "4"
- "buzz" : "3"
- "fizzbuzz" : "1"
+{"range" : "1 2 3 4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz 16 17 fizz 19 buzz",<br/>
+ "fizz" : "4",<br/>
+ "buzz" : "3",<br/>
+ "fizzbuzz" : "1",<br/>
  "integer" : "12"}
- 
- Error messages should be returned as JSON objects to the client, for example :-
- 
- * {"error" : "Both start and end values need to be provided" }
- * {"error" : "The start number X must be less than the end number Y" }
- * {"error" : "The start and end values must both be positive values and greater than zero" }
+
+Error messages should be returned as JSON objects to the client, for example :-
+
+{"error" : "Both start and end values need to be provided" }<br/>
+{"error" : "The start number must be less than the end number" }<br/>
+{"error" : "The start and end values must both be positive values and greater than zero" }
