@@ -13,7 +13,7 @@ package com.wcl.fizzbuzz.integration.health;
         import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration
+//@ContextConfiguration
 public class HealthCheckStepDefinitions {
     private final String URL = "http://localhost:%d/actuator/health";
     @LocalServerPort
