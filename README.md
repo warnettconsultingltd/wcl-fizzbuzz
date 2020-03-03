@@ -15,7 +15,7 @@ A report will also be generated containing counts of the following values found 
 
 An example :-
 
-Range 1 to 20 should provide the following JSON output :-
+Range 1 to 20 should provide the following JSON output with a 200 OK status code :-
 
 {"range" : "1 2 3 4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz 16 17 fizz 19 buzz",<br/>
  "fizz" : "4",<br/>
@@ -23,7 +23,7 @@ Range 1 to 20 should provide the following JSON output :-
  "fizzbuzz" : "1",<br/>
  "integer" : "12"}
 
-Error messages should be returned as JSON objects to the client, for example :-
+Error messages should be returned as JSON objects to the client, with a 400 Bad Request status, for example :-
 
 {"error" : "Both start and end values need to be provided" }<br/>
 {"error" : "The start number must be less than the end number" }<br/>
