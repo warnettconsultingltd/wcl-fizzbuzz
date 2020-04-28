@@ -35,11 +35,6 @@ public class FizzBuzzStepDefinitions {
         performFizzBuzzAPICall(6,4);
     }
 
-    @When("the client calls \\/fizzbuzz with negative parameters")
-    public void whenTheClientCallsFizzbuzzAPIWithNegativeParameters() {
-        performFizzBuzzAPICall(-2,-4);
-    }
-
     @When("the client calls \\/fizzbuzz with negative start parameter")
     public void whenTheClientCallsFizzbuzzAPIWithStartParameter() {
         performFizzBuzzAPICall(-3,4);
