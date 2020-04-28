@@ -1,103 +1,104 @@
 package com.wcl.fizzbuzz.integration.fizzbuzz;
 
-import com.wcl.fizzbuzz.entity.FizzBuzzResult;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import lombok.Data;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class FizzBuzzStepDefinitions {
-    private final String URL = "http://localhost:%d/fizzbuzz/v1";
+    private final String URL = "http://localhost:%d/fizzbuzz/v1?start=%d&end=%d";
+
     @LocalServerPort
     private int port;
 
     @Autowired
+    private RestTemplateBuilder builder;
+
+    @Autowired
     private TestRestTemplate restTemplate;
 
-    private ResponseEntity<FizzBuzzResult> result;
-
-    @When("the client calls \\/fizzbuzz with no parameters")
-    public void whenTheClientCallsFizzbuzzAPIWithNoParameters() {
-        try {
-            performFizzBuzzAPICall();
-        } catch (Exception e) {
-            fail("Error accessing fizzbuzz endpoint :- "+ e.getMessage());
-        }
-    }
-
-    @When("the client calls \\/fizzbuzz with non-numeric parameters")
-    public void whenTheClientCallsFizzbuzzAPIWithNonNumericParameters() {
-        try {
-            performFizzBuzzAPICall();
-        } catch (Exception e) {
-            fail("Error accessing fizzbuzz endpoint :- "+ e.getMessage());
-        }
-    }
+    private ResponseEntity<String> result;
 
     @When("the client calls \\/fizzbuzz with end parameter less than start parameter")
     public void whenTheClientCallsFizzbuzzAPIWithEndParameterLessThanStartParameter() {
+        performFizzBuzzAPICall(6,4);
+    }
+
+    @When("the client calls \\/fizzbuzz with negative parameters")
+    public void whenTheClientCallsFizzbuzzAPIWithNegativeParameters() {
+        performFizzBuzzAPICall(-2,-4);
+    }
+
+    @When("the client calls \\/fizzbuzz with identical parameters")
+    public void whenTheClientCallsFizzbuzzAPIWithIdenticalParameters() {
+        performFizzBuzzAPICall(9,9);
+    }
+
+    @When("the client calls \\/fizzbuzz with valid parameters")
+    public void whenTheClientCallsFizzbuzzAPIWithValidParameters() {
+        performFizzBuzzAPICall(4, 24);
+    }
+
+    @Then("the http status is {string}")
+    public void thenTheHTTPStatusIsReturnedCorrectly(final String statusText) {
+        final int code = Integer.parseInt(statusText.substring(0,statusText.indexOf(" ")));
+        assertEquals(HttpStatus.valueOf(code), result.getStatusCode());
+    }
+
+    @And("the client receives an error message of {string}")
+    public void thenTheClientErrorMessageIsReturnedCorrectly(final String message) throws JSONException {
+        final JSONObject resultObject = convertToJSONObject();
+        assertEquals(message, resultObject.getString("message"));
+    }
+
+    @Then("correct result returned")
+    public void thenTheCorrectResultReturned() throws JSONException {
+        final JSONObject resultObject = convertToJSONObject();
+
+        assertEquals("4 to 24", resultObject.getString("range"));
+//        assertEquals("1 2 fizz 4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz 16 17 fizz 19 buzz fizz 22 23 fizz",
+//                     resultObject.getString("result"));
+        assertEquals(6, resultObject.getInt("fizz"));
+        assertEquals(3, resultObject.getInt("buzz"));
+        assertEquals(1, resultObject.getInt("fizzBuzz"));
+        assertEquals(11, resultObject.getInt("integer"));
+    }
+
+    private JSONObject convertToJSONObject() throws JSONException {
+        assertNotNull(result);
+
+        return new JSONObject(result.getBody());
+    }
+
+//
+//
+//    @Then("the http status is 200 OK")
+//    public void thenTheHTTPStatusIs200Ok() {
+//        assertEquals(HttpStatus.OK, result.getStatusCode());
+//    }
+
+
+    private void performFizzBuzzAPICall(final Integer start, final Integer end) {
         try {
-            performFizzBuzzAPICall();
-        } catch (Exception e) {
-            fail("Error accessing fizzbuzz endpoint :- "+ e.getMessage());
+            result = restTemplate.getForEntity(String.format(URL, port, start, end) ,  String.class);
+       } catch (Exception e) {
+            fail("Error accessing fizzbuzz endpoint :- " + e.getMessage());
         }
-    }
-
-    @When("the client calls \\/fizzbuzz with end parameter same as start parameter")
-    public void whenTheClientCallsFizzbuzzAPUWithEndParameterSameAsStartParameter() {
-        try {
-            performFizzBuzzAPICall();
-        } catch (Exception e) {
-            fail("Error accessing fizzbuzz endpoint :- "+ e.getMessage());
-        }
-    }
-
-    @Then("the http status is 400 Bad Request")
-    public void thenTheHTTPStatusIs400BadRequest() {
-        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
-    }
-
-    @Then("the http status is 200 OK")
-    public void thenTheHTTPStatusIs200Ok() {
-        assertEquals(HttpStatus.OK, result.getStatusCode());
-    }
-
-    @And("the client receives an error status of \"Both start and end values need to be provided\"")
-    public void thenTheClientHasNotPassedStartAndEndValues() {
-       assertEquals("Both start and end values need to be provided", result.getBody().getError());
-       assertDataClear();
-    }
-
-    @And("the client receives an error status of \"The start number must be less than the end number\"")
-    public void thenTheClientHasPassedNonNumalues() {
-        assertEquals("The start number must be less than the end number", result.getBody().getError());
-        assertDataClear();
-    }
-
-    private void performFizzBuzzAPICall() {
-        result = restTemplate.getForObject(String.format(URL,port),  ResponseEntity.class);
-    }
-
-    private void assertDataClear() {
-        assertNull(result.getBody().getRange());
-        assertEquals(0, result.getBody().getFizz());
-        assertEquals(0, result.getBody().getBuzz());
-        assertEquals(0, result.getBody().getFizzBuzz());
-        assertEquals(0, result.getBody().getInteger());
     }
 }
 
-@Data
-class FizzBuzzError {
-    Integer code;
-    String error;
-}
+
