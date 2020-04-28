@@ -40,6 +40,16 @@ public class FizzBuzzStepDefinitions {
         performFizzBuzzAPICall(-2,-4);
     }
 
+    @When("the client calls \\/fizzbuzz with negative start parameter")
+    public void whenTheClientCallsFizzbuzzAPIWithStartParameter() {
+        performFizzBuzzAPICall(-3,4);
+    }
+
+    @When("the client calls \\/fizzbuzz with negative end parameter")
+    public void whenTheClientCallsFizzbuzzAPIWithEndParameter() {
+        performFizzBuzzAPICall(3,-4);
+    }
+
     @When("the client calls \\/fizzbuzz with identical parameters")
     public void whenTheClientCallsFizzbuzzAPIWithIdenticalParameters() {
         performFizzBuzzAPICall(9,9);
@@ -67,27 +77,13 @@ public class FizzBuzzStepDefinitions {
         final JSONObject resultObject = convertToJSONObject();
 
         assertEquals("4 to 24", resultObject.getString("range"));
-//        assertEquals("1 2 fizz 4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz 16 17 fizz 19 buzz fizz 22 23 fizz",
-//                     resultObject.getString("result"));
+        assertEquals("4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz 16 17 fizz 19 buzz fizz 22 23 fizz",
+                     resultObject.getString("result"));
         assertEquals(6, resultObject.getInt("fizz"));
         assertEquals(3, resultObject.getInt("buzz"));
         assertEquals(1, resultObject.getInt("fizzBuzz"));
         assertEquals(11, resultObject.getInt("integer"));
     }
-
-    private JSONObject convertToJSONObject() throws JSONException {
-        assertNotNull(result);
-
-        return new JSONObject(result.getBody());
-    }
-
-//
-//
-//    @Then("the http status is 200 OK")
-//    public void thenTheHTTPStatusIs200Ok() {
-//        assertEquals(HttpStatus.OK, result.getStatusCode());
-//    }
-
 
     private void performFizzBuzzAPICall(final Integer start, final Integer end) {
         try {
@@ -95,6 +91,12 @@ public class FizzBuzzStepDefinitions {
        } catch (Exception e) {
             fail("Error accessing fizzbuzz endpoint :- " + e.getMessage());
         }
+    }
+
+    private JSONObject convertToJSONObject() throws JSONException {
+        assertNotNull(result);
+
+        return new JSONObject(result.getBody());
     }
 }
 
