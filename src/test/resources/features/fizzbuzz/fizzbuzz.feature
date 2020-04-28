@@ -10,6 +10,12 @@ Feature: User can make a call to the FizzBuzz api
     Then the http status is "400 Bad Request"
     And the client receives an error message of "The start and end values must both be positive values and greater than zero"
 
+  # Note that any test with end parameter zero will be invalid due to all other conditions.
+  Scenario: client makes call to GET /fizzbuzz with start parameter zero
+    When the client calls /fizzbuzz with start parameter zero
+    Then the http status is "400 Bad Request"
+    And the client receives an error message of "The start and end values must both be positive values and greater than zero"
+
   Scenario: client makes call to GET /fizzbuzz with negative end parameter
     When the client calls /fizzbuzz with negative end parameter
     Then the http status is "400 Bad Request"

@@ -36,12 +36,17 @@ public class FizzBuzzStepDefinitions {
     }
 
     @When("the client calls \\/fizzbuzz with negative start parameter")
-    public void whenTheClientCallsFizzbuzzAPIWithStartParameter() {
+    public void whenTheClientCallsFizzbuzzAPIWithNegativeStartParameter() {
         performFizzBuzzAPICall(-3,4);
     }
 
+    @When("the client calls \\/fizzbuzz with start parameter zero")
+    public void whenTheClientCallsFizzbuzzAPIWithStartParameterZero() {
+        performFizzBuzzAPICall(0,4);
+    }
+
     @When("the client calls \\/fizzbuzz with negative end parameter")
-    public void whenTheClientCallsFizzbuzzAPIWithEndParameter() {
+    public void whenTheClientCallsFizzbuzzAPIWithNegativeEndParameter() {
         performFizzBuzzAPICall(3,-4);
     }
 
