@@ -8,7 +8,7 @@ For a range of contiguous positive numbers, output should be returned for each n
 * 'fizzbuzz' for numbers that are multiples of 15
 
 A report will also be generated containing counts of the following values found within the generated output :-
-* number
+* integer
 * fizz
 * buzz
 * fizzbuzz
@@ -17,11 +17,12 @@ An example :-
 
 Range 1 to 20 should provide the following JSON output with a 200 OK status code :-
 
-{"range" : "1 2 3 4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz 16 17 fizz 19 buzz",<br/>
- "fizz" : "4",<br/>
+{"range" : "1 to 20",<br/>
+ "result" : "1 2 fizz 4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz 16 17 fizz 19 buzz",<br/>
+ "fizz" : "5",<br/>
  "buzz" : "3",<br/>
  "fizzbuzz" : "1",<br/>
- "integer" : "12"}
+ "integer" : "11"}
 
 Error messages should be returned as JSON objects to the client, with a 400 Bad Request status, for example :-
 
