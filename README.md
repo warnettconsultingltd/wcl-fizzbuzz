@@ -18,7 +18,7 @@ An example :-
 Range 1 to 20 should provide the following JSON output with a 200 OK status code :-
 
 {"range" : "1 to 20",<br/>
- "result" : "1 2 fizz 4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz 16 17 fizz 19 buzz",<br/>
+ "result" : "1, 2, fizz, 4, buzz, fizz, 7, 8, fizz, buzz, 11, fizz, 13, 14, fizzbuzz, 16, 17, fizz, 19, buzz",<br/>
  "fizz" : "5",<br/>
  "buzz" : "3",<br/>
  "fizzbuzz" : "1",<br/>
