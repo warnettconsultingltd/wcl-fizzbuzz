@@ -77,7 +77,7 @@ public class FizzBuzzStepDefinitions {
         final JSONObject resultObject = convertToJSONObject();
 
         assertEquals("4 to 24", resultObject.getString("range"));
-        assertEquals("4 buzz fizz 7 8 fizz buzz 11 fizz 13 14 fizzbuzz 16 17 fizz 19 buzz fizz 22 23 fizz",
+        assertEquals("4, buzz, fizz, 7, 8, fizz, buzz, 11, fizz, 13, 14, fizzbuzz, 16, 17, fizz, 19, buzz, fizz, 22, 23, fizz",
                      resultObject.getString("result"));
         assertEquals(6, resultObject.getInt("fizz"));
         assertEquals(3, resultObject.getInt("buzz"));
