@@ -1,15 +1,17 @@
 package com.wcl.fizzbuzz.entity;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-@Builder
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class FizzBuzzResult {
     String range;
+    String result;
     Integer fizz;
     Integer buzz;
     Integer fizzBuzz;
     Integer integer;
-    String error;
 }

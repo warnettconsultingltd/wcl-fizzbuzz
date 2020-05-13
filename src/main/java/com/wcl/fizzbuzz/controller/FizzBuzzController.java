@@ -1,16 +1,25 @@
 package com.wcl.fizzbuzz.controller;
 
 import com.wcl.fizzbuzz.entity.FizzBuzzResult;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import com.wcl.fizzbuzz.service.FizzBuzzService;
+import com.wcl.fizzbuzz.service.ParameterValidationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public final class FizzBuzzController {
-    @RequestMapping(method= RequestMethod.GET, value="/fizzbuzz/v1")
-    public ResponseEntity<FizzBuzzResult> generateFizzBuzz() {
-        return ResponseEntity.status(HttpStatus.OK).body(FizzBuzzResult.builder().build());
+
+    @Autowired
+    ParameterValidationService validatorService;
+
+    @Autowired
+    FizzBuzzService fizzBuzzService;
+
+    @GetMapping(path="/fizzbuzz/v1")
+    public FizzBuzzResult generateFizzBuzz(@RequestParam("start") Integer start, @RequestParam("end") Integer end) {
+        validatorService.validateParameters(start, end);
+        return fizzBuzzService.calculateFizzBuzzResult(start, end);
     }
 }
