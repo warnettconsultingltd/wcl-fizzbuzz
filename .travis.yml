@@ -7,3 +7,4 @@ before_install:
 script:
   - mvn clean install
   - mvn deploy jib:build -P deploy-docker
+  
