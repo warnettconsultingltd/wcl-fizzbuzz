@@ -1,0 +1,9 @@
+language: java
+jdk:
+  - openjdk14
+before_install:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker pull openjdk:14-jre-slim-sid
+script:
+  - mvn clean install
+  - mvn deploy jib:build -P deploy-docker
