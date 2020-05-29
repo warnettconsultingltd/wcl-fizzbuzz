@@ -8,24 +8,33 @@ import java.util.stream.IntStream;
 
 @Service
 public class FizzBuzzService {
-    private int fizz;
-    private int buzz;
-    private int fizzBuzz;
-    private int integer;
-    private final StringBuilder result = new StringBuilder();
+    private int fizzCount;
+    private int buzzCount;
+    private int fizzBuzzCount;
+    private int integerCount;
+    private StringBuilder result;
 
     private final Predicate<Integer> FIZZ_PREDICATE = i -> i % 3 == 0;
     private final Predicate<Integer> BUZZ_PREDICATE = i -> i % 5 == 0;
 
     public FizzBuzzResult calculateFizzBuzzResult(final Integer start, final Integer end) {
+        clearData();
+
         IntStream.rangeClosed(start, end).forEach(
                 this::performCalculations
         );
 
         return new FizzBuzzResult(String.format("%d to %d",start, end), cleanText(result.toString().trim()),
-                                  fizz, buzz, fizzBuzz, integer);
+                fizzCount, buzzCount, fizzBuzzCount, integerCount);
     }
 
+    private void clearData() {
+        fizzCount = 0;
+        buzzCount = 0;
+        fizzBuzzCount = 0;
+        integerCount = 0;
+        result = new StringBuilder();
+    }
     private String cleanText(final String text) {
         return text.substring(0,text.lastIndexOf(","));
     }
@@ -33,18 +42,18 @@ public class FizzBuzzService {
     private void performCalculations(int i) {
         if (FIZZ_PREDICATE.test(i))  {
             if (BUZZ_PREDICATE.test(i)) {
-                fizzBuzz ++;
+                fizzBuzzCount++;
                 result.append("fizzbuzz");
             }
             else {
-                fizz++;
+                fizzCount++;
                 result.append("fizz");
             }
         } else if (BUZZ_PREDICATE.test(i)) {
-            buzz++;
+            buzzCount++;
             result.append("buzz");
         } else {
-            integer++;
+            integerCount++;
             result.append(i);
         }
 
