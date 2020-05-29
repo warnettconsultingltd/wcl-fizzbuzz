@@ -60,6 +60,9 @@ public class FizzBuzzStepDefinitions {
         performFizzBuzzAPICall(4, 24);
     }
 
+    @And("a second invocation with valid parameters occurs")
+    public void secondValidInvocationOccurs() { performFizzBuzzAPICall(25, 32); }
+
     @Then("the http status is {string}")
     public void thenTheHTTPStatusIsReturnedCorrectly(final String statusText) {
         final int code = Integer.parseInt(statusText.substring(0,statusText.indexOf(" ")));
@@ -83,6 +86,19 @@ public class FizzBuzzStepDefinitions {
         assertEquals(3, resultObject.getInt("buzz"));
         assertEquals(1, resultObject.getInt("fizzBuzz"));
         assertEquals(11, resultObject.getInt("integer"));
+    }
+
+    @And("only results for the second invocation are returned")
+    public void onlyResultsForSecondInvocationReturned() throws JSONException {
+        final JSONObject resultObject = convertToJSONObject();
+
+        assertEquals("25 to 32", resultObject.getString("range"));
+        assertEquals("buzz, 26, fizz, 28, 29, fizzbuzz, 31, 32",
+                resultObject.getString("result"));
+        assertEquals(1, resultObject.getInt("fizz"));
+        assertEquals(1, resultObject.getInt("buzz"));
+        assertEquals(1, resultObject.getInt("fizzBuzz"));
+        assertEquals(5, resultObject.getInt("integer"));
     }
 
     private void performFizzBuzzAPICall(final Integer start, final Integer end) {

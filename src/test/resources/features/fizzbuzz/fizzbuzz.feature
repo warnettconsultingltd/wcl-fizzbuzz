@@ -30,3 +30,9 @@ Feature: User can make a call to the FizzBuzz api
     When the client calls /fizzbuzz with valid parameters
     Then the http status is "200 OK"
      And correct result returned
+
+  Scenario: data does not persist between invocations
+    When the client calls /fizzbuzz with valid parameters
+     And a second invocation with valid parameters occurs
+    Then the http status is "200 OK"
+     And only results for the second invocation are returned
