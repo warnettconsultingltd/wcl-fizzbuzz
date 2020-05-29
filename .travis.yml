@@ -1,7 +1,5 @@
 language: java
 jdk:
   - openjdk14
-before_install:
-  - chmod +x mvnw
 script:
-  - ./mvnw clean install
+  - mvn clean install
