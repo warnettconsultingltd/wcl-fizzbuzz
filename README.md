@@ -13,6 +13,10 @@ A report will also be generated containing counts of the following values found 
 * buzz
 * fizzbuzz
 
+The API is invoked as follows :-
+
+http://<<url:port>>/fizzbuzz/v1?start=X&end=Y
+
 An example :-
 
 Range 1 to 20 should provide the following JSON output with a 200 OK status code :-
