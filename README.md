@@ -8,7 +8,7 @@ For a range of contiguous positive numbers, output should be returned for each n
 * 'fizzbuzz' for numbers that are multiples of 15
 
 A report will also be generated containing counts of the following values found within the generated output :-
-* integer
+* integer 
 * fizz
 * buzz
 * fizzbuzz
